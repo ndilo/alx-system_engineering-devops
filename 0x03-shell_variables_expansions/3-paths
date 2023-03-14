@@ -1,2 +1,2 @@
 #!/bin/bash
-find PATH -typd d -uname | wc -l
+echo $PATH | ls -type d | wc -l
