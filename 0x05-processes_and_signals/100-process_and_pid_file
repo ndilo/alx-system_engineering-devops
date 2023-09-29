@@ -1,23 +1,23 @@
 #!/bin/bash
 
-# Define a function to clean up and exit
+# Function to handle termination signals
 cleanup() {
-    echo "Cleaning up..."
+    echo "Deleting PID file and terminating..."
     rm -f /var/run/myscript.pid
-    exit
+    exit 0
 }
 
-# Trap signals and call the cleanup function
-trap 'cleanup' SIGQUIT SIGTERM
+# Trap SIGTERM and SIGQUIT signals to cleanup and exit
+trap 'cleanup' SIGTERM SIGQUIT
 
-# Create the PID file
-echo $$ > /var/run/myscript.pid
-
-# Trap SIGINT (Ctrl+C) and display a message
+# Trap SIGINT signal to display a message
 trap 'echo "Y U no love me?!"' SIGINT
 
-# Trap SIGTERM and display a message
+# Trap SIGTERM signal to display a message
 trap 'echo "I hate the kill command"' SIGTERM
+
+# Get the current PID and save it to the PID file
+echo $$ > /var/run/myscript.pid
 
 # Display "To infinity and beyond" indefinitely
 while true; do
