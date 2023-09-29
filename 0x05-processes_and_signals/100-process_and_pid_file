@@ -1,26 +1,32 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# This script displays a string infinitely with a 2-second delay between each iteration.
+# It creates a pid file in the var/ directory
+# It catches a SIGTERM signal and displays a text, deletes the created file then terminates itself.
+# It catches a SIGINT signal and displays a different text.
 
-# Function to handle termination signals
-cleanup() {
-    echo "Deleting PID file and terminating..."
-    rm -f /var/run/holbertonscript.pid
-    exit 0
+echo "$$" > /var/run/myscript.pid
+
+hate_kill()
+{
+    echo "I hate the kill command"
 }
 
-# Trap SIGTERM and SIGQUIT signals to cleanup and exit
-trap 'cleanup' SIGTERM SIGQUIT
+no_love()
+{
+    echo "Y U no love me?!"
+}
 
-# Trap SIGINT signal to display a message
-trap 'echo "Y U no love me?!"' SIGINT
+terminate()
+{
+    rm /var/run/myscript.pid
+    exit
+}
 
-# Trap SIGTERM signal to display a message
-trap 'echo "I hate the kill command"' SIGTERM
+trap 'hate_kill && terminate' SIGTERM
+trap no_love SIGINT
+trap terminate SIGQUIT
 
-# Get the current PID and save it to the PID file
-echo $$ > /var/run/myscript.pid
-
-# Display "To infinity and beyond" indefinitely
 while true; do
     echo "To infinity and beyond"
-    sleep 1
+    sleep 2
 done
