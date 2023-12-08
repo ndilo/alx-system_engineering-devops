@@ -1,7 +1,19 @@
-#!/usr/bin/env bash
-# script to install and setup nginx
-apt-get -y update
-apt-get -y upgrade
-apt-get -y install nginx
-service nginx start
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
+#!/bin/bash
+
+# Update package list
+sudo apt-get update
+
+# Install NGINX
+sudo apt-get install -y nginx
+
+# Configure NGINX to listen on port 80
+sudo sed -i 's/.*listen\(.*\)80;/\tlisten 80;/g' /etc/nginx/sites-available/default
+
+# Create an HTML file with "Hello World!" content
+echo "<!DOCTYPE html><html><head><title>Hello World</title></head><body><h1>Hello World!</h1></body></html>" | sudo tee /var/www/html/index.html
+
+# Restart NGINX (without using systemctl)
+sudo /etc/init.d/nginx restart
+
+# Print a message indicating successful configuration
+echo "NGINX installed and configured. Visit http://34.232.53.80/ to see the Hello World page."

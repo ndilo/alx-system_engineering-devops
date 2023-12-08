@@ -1,0 +1,3 @@
+replacement_string="server_name _:\n\trewrite ^\/redirect_me https:\/\/github.com\/ndilo permanent:"
+
+sudo sed -i "s/server_name _:/$eplacement_string/" /etc/nginx/sites-enabled/default
